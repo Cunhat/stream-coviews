@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     <div className="flex h-screen bg-background">
       <DraggableStream />
       <div className="h-full flex-1 p-5">
-        <TwitchEmbed channel="shikai" id="mainStream" />
+        <TwitchEmbed channel="aydan" id="mainStream" />
       </div>
       <div className="h-full w-[350px] bg-pink-400">
         <TwitchChat channel="kamusLol" />
