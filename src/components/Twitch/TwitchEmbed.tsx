@@ -4,6 +4,7 @@ import { TwitchEmbed as Twitch, TwitchEmbedProps } from "react-twitch-embed";
 export const TwitchEmbed: React.FC<TwitchEmbedProps> = ({
   channel,
   hideControls,
+  id,
 }) => {
   const embed = useRef();
 
@@ -22,6 +23,7 @@ export const TwitchEmbed: React.FC<TwitchEmbedProps> = ({
       width="100%"
       height="100%"
       withChat={false}
+      id={id}
     />
   );
 };
