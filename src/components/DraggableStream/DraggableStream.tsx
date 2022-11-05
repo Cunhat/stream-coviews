@@ -4,7 +4,7 @@ import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { TwitchEmbed } from "@/components/Twitch/TwitchEmbed";
 import { cva } from "class-variance-authority";
-import { Select, SelectData } from "@ui/Select";
+import { Select } from "@ui/Select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faMaximize } from "@fortawesome/free-solid-svg-icons";
 import { Listbox } from "@headlessui/react";
