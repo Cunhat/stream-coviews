@@ -5,6 +5,7 @@ import { MemoizedDraggableStream } from "@/components/DraggableStream/DraggableS
 import { TwitchEmbed } from "@/components/Twitch/TwitchEmbed";
 import { YoutubeStream } from "@/components/Youtube";
 import { Button } from "@ui/Button";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const Home: NextPage = () => {
   const [hideChat, setHideChat] = useState<boolean>(false);
@@ -20,7 +21,8 @@ const Home: NextPage = () => {
           <Button
             onClick={() => setHideChat(!hideChat)}
             type="primary"
-            text="Hide chat"
+            text={!hideChat ? "Hide chat" : "Show chat"}
+            icon={faArrowRightFromBracket}
           />
           {/* <Button type="secondary" text="Hide chat" /> */}
         </div>

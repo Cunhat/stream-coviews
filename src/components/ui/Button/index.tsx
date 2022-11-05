@@ -1,4 +1,5 @@
 import { cva } from "class-variance-authority";
+import { FontAwesomeIcon, IconProp } from "@fortawesome/react-fontawesome";
 
 const ButtonStyles = cva(
   "inline-flex items-center border font-medium relative text-base px-4 py-2 rounded-md text-white shadow-sm",
@@ -18,9 +19,11 @@ export const Button: React.FC<{
   text: string;
   type?: "primary" | "secondary";
   onClick: () => void;
-}> = ({ text, type = "primary", onClick }) => {
+  icon?: IconProp;
+}> = ({ text, type = "primary", onClick, icon }) => {
   return (
     <button onClick={onClick} className={ButtonStyles({ type })}>
+      <FontAwesomeIcon icon={icon} className="mr-2" />
       {text}
     </button>
   );
