@@ -10,7 +10,7 @@ import { faGear, faMaximize } from "@fortawesome/free-solid-svg-icons";
 import { Listbox } from "@headlessui/react";
 
 const DraggableStreamStyles = cva(
-  "absolute top-0 left-0 h-[200px] w-[200px] group",
+  "absolute top-0 left-0 h-[200px] w-[200px] group z-[1000]",
   {
     variants: {
       size: {
@@ -87,12 +87,13 @@ const DraggableStream: React.FC<{}> = () => {
     </animated.div>
   );
 
-  return mount
-    ? ReactDom.createPortal(
-        floatingStream,
-        document.querySelector("#floatingStreamPortal")!
-      )
-    : null;
+  // return mount
+  //   ? ReactDom.createPortal(
+  //       floatingStream,
+  //       document.querySelector("#floatingStreamPortal")!
+  //     )
+  //   : null;
+  return floatingStream;
 };
 
 export const MemoizedDraggableStream = React.memo(DraggableStream);

@@ -1,8 +1,10 @@
+import { memo } from "react";
+
 type YoutubeStreamProps = {
   url: string;
 };
 
-export const YoutubeStream: React.FC<YoutubeStreamProps> = ({ url }) => {
+const Youtube: React.FC<YoutubeStreamProps> = ({ url }) => {
   return (
     <iframe
       width="100%"
@@ -15,3 +17,5 @@ export const YoutubeStream: React.FC<YoutubeStreamProps> = ({ url }) => {
     ></iframe>
   );
 };
+
+export const YoutubeStream = memo(Youtube);
