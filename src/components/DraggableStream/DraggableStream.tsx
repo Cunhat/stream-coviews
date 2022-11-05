@@ -38,7 +38,7 @@ const SIZES: Array<DraggableStreamSizes> = [
   { value: "large", label: "Large" },
 ];
 
-export const DraggableStream: React.FC<{}> = () => {
+const DraggableStream: React.FC<{}> = () => {
   const [mount, setMount] = useState<boolean>(false);
   const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
   const [selectedSize, setSelectedSize] = useState<DraggableStreamSizes>({
@@ -94,3 +94,5 @@ export const DraggableStream: React.FC<{}> = () => {
       )
     : null;
 };
+
+export const MemoizedDraggableStream = React.memo(DraggableStream);
