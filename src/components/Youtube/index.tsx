@@ -2,9 +2,10 @@ import { memo } from "react";
 
 type YoutubeStreamProps = {
   url: string;
+  id: string;
 };
 
-const Youtube: React.FC<YoutubeStreamProps> = ({ url }) => {
+const Youtube: React.FC<YoutubeStreamProps> = ({ url, id }) => {
   return (
     <iframe
       width="100%"
@@ -14,6 +15,7 @@ const Youtube: React.FC<YoutubeStreamProps> = ({ url }) => {
       frameBorder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
+      id={id}
     ></iframe>
   );
 };

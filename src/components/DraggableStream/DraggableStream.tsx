@@ -8,6 +8,7 @@ import { Select } from "@ui/Select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faMaximize } from "@fortawesome/free-solid-svg-icons";
 import { Listbox } from "@headlessui/react";
+import { Stream } from "../StreamBuilder";
 
 const DraggableStreamStyles = cva(
   "absolute top-0 left-0 h-[200px] w-[200px] group z-[1000]",
@@ -38,18 +39,21 @@ const SIZES: Array<DraggableStreamSizes> = [
   { value: "large", label: "Large" },
 ];
 
-const DraggableStream: React.FC<{}> = () => {
-  const [mount, setMount] = useState<boolean>(false);
+const DraggableStream: React.FC<{
+  streamName: string;
+  providerName: string;
+}> = ({ streamName, providerName }) => {
+  //const [mount, setMount] = useState<boolean>(false);
   const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
   const [selectedSize, setSelectedSize] = useState<DraggableStreamSizes>({
     value: "extraSmall",
     label: "Extra Small",
   });
 
-  useEffect(() => {
-    setMount(true);
-    return () => setMount(false);
-  }, []);
+  // useEffect(() => {
+  //   setMount(true);
+  //   return () => setMount(false);
+  // }, []);
 
   const bind = useDrag(({ down, offset: [ox, oy] }) =>
     api.start({ x: ox, y: oy, immediate: down })
@@ -82,8 +86,11 @@ const DraggableStream: React.FC<{}> = () => {
           }
         />
       </div>
-
-      <TwitchEmbed channel="jamiepinelive" id="floatingStream" />
+      <Stream
+        streamName={streamName}
+        providerName={providerName}
+        id="floatingStream"
+      />
     </animated.div>
   );
 
