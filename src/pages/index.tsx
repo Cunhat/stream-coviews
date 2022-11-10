@@ -1,68 +1,74 @@
-import { useState } from "react";
-import { TwitchChat } from "@/components/Twitch/TwitchChat";
-import { type NextPage } from "next";
-import { MemoizedDraggableStream } from "@/components/DraggableStream/DraggableStream";
-import { Button } from "@ui/Button";
-import {
-  faArrowRightFromBracket,
-  faExpand,
-} from "@fortawesome/free-solid-svg-icons";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { useRouter } from "next/router";
-import { Stream } from "@/components/StreamBuilder";
+import { useState, useEffect } from 'react';
+import { TwitchChat } from '@/components/Twitch/TwitchChat';
+import { type NextPage } from 'next';
+import { MemoizedDraggableStream } from '@/components/DraggableStream/DraggableStream';
+import { Button } from '@ui/Button';
+import { faTwitch, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+import { useRouter } from 'next/router';
+import { Stream } from '@/components/StreamBuilder';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { cva } from 'class-variance-authority';
+import Link from 'next/link';
+import { DataElement, BuildCoview } from '@/components/BuildCoview';
+
+type Data = {
+	mainStreamProvider: string;
+	mainStreamUrl: string;
+	secondaryStreamProvider: string;
+	secondaryStreamUrl: string;
+};
 
 const Home: NextPage = () => {
-  const router = useRouter();
-  const [hideChat, setHideChat] = useState<boolean>(false);
-  const fullscreen = useFullScreenHandle();
+	const [isCoView, setIsCoView] = useState<boolean>(true);
+	const [data, setData] = useState<Data>({
+		mainStreamProvider: '',
+		mainStreamUrl: '',
+		secondaryStreamProvider: '',
+		secondaryStreamUrl: '',
+	});
 
-  if (
-    router?.query?.mainStream === undefined &&
-    router?.query?.chatStream === undefined
-  ) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-background">
-        <h1 className="text-lg text-white">You have to choose streams</h1>
-      </div>
-    );
-  }
+	const chooseStreamHandler = (provider: string, type: DataElement) => {
+		const newData = { ...data };
+		newData[type] = provider;
+		setData(newData);
+	};
 
-  return (
-    <div className="flex h-screen bg-background">
-      <div className="flex h-full flex-1 flex-col p-5">
-        <FullScreen className="flex-1" handle={fullscreen}>
-          <MemoizedDraggableStream
-            streamName={router.query.secondaryStream as string}
-            providerName={router.query.secondaryProvider as string}
-          />
-          <Stream
-            id="mainStream"
-            streamName={router.query.mainStream as string}
-            providerName={router.query.mainProvider as string}
-          />
-        </FullScreen>
-        <div className="ml-auto flex h-20 items-center gap-4">
-          <Button
-            onClick={() => setHideChat(!hideChat)}
-            type="primary"
-            text={!hideChat ? "Hide chat" : "Show chat"}
-            icon={faArrowRightFromBracket}
-          />
-          <Button
-            type="secondary"
-            text="Fullscreen"
-            onClick={fullscreen.active ? fullscreen.exit : fullscreen.enter}
-            icon={faExpand}
-          />
-        </div>
-      </div>
-      {!hideChat && (
-        <div className="h-full w-[350px]">
-          <TwitchChat channel={router.query.secondaryStream as string} />
-        </div>
-      )}
-    </div>
-  );
+	const checkIfCanGenerate = () => {
+		return (
+			data.mainStreamProvider !== '' ||
+			data.mainStreamUrl !== '' ||
+			data.secondaryStreamProvider !== '' ||
+			data.secondaryStreamUrl !== ''
+		);
+	};
+
+	const generateStream = () => {
+		if (!checkIfCanGenerate()) return '/';
+		return `/coView?mainStream=${data.mainStreamUrl}&mainProvider=${data.mainStreamProvider}&secondaryStream=${data.secondaryStreamUrl}&secondaryProvider=${data.secondaryStreamProvider}`;
+	};
+
+	return (
+		<div className="flex h-screen flex-col items-center justify-center gap-20 bg-background">
+			<h1 className="text-4xl font-bold text-primary">Welcome to your multi-stream platform!</h1>
+			{!isCoView ? (
+				<div className="flex w-[200px] flex-col gap-5">
+					<Button text="Co-view stream" type="primary" onClick={() => setIsCoView(true)} size="full" />
+					<Button text="Multi-stream" type="secondary" onClick={() => {}} disabled size="full" />
+				</div>
+			) : (
+				<div className="flex flex-col gap-10">
+					<BuildCoview title="Choose your main stream provider" onClick={chooseStreamHandler} type="main" />
+					<BuildCoview title="Choose your secondary stream provider" onClick={chooseStreamHandler} type="secondary" />
+				</div>
+			)}
+			{checkIfCanGenerate() && (
+				<Link href={generateStream()}>
+					<Button text="Go to stream" type="primary" onClick={() => {}} size="lg" />
+				</Link>
+			)}
+		</div>
+	);
 };
 
 export default Home;
