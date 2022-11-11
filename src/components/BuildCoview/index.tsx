@@ -25,11 +25,13 @@ export const BuildCoview: React.FC<{
 	type: 'main' | 'secondary';
 }> = ({ title, onClick, type }) => {
 	const [isProviderSelected, setIsProviderSelected] = useState<boolean>(false);
-	const [selectedProvider, setSelectedProvider] = useState<'youtube' | 'twitch' | string>('');
+	const [selectedProvider, setSelectedProvider] = useState<'youtube' | 'twitch' | ''>('');
 
-	const onProviderClick = (provider: string, type: DataElement) => {
+	const onProviderClick = (provider: string | 'youtube' | 'twitch', type: DataElement, isInput: boolean = false) => {
 		setIsProviderSelected(true);
-		setSelectedProvider(provider);
+		if (!isInput) {
+			setSelectedProvider(provider as typeof selectedProvider);
+		}
 		onClick(provider, type);
 	};
 
@@ -59,7 +61,7 @@ export const BuildCoview: React.FC<{
 					<h2 className="text-xl font-bold text-white">Insert stream url</h2>
 					<input
 						type="text"
-						onBlur={(e) => onProviderClick(e.target.value, `${type}StreamUrl`)}
+						onBlur={(e) => onProviderClick(e.target.value, `${type}StreamUrl`, true)}
 						maxLength={50}
 						className="m-0 rounded-md border border-solid border-primary bg-background py-1 px-2 text-sm text-white transition ease-in-out invalid:border-red-500 hover:border-primary focus:border-primary focus:text-white
 focus:outline-none"
