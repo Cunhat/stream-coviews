@@ -37,7 +37,7 @@ export const BuildCoview: React.FC<{
 
 	return (
 		<div className="flex flex-col gap-5">
-			<h2 className="text-xl font-bold text-white">{title}</h2>
+			<h2 className="text-xl font-bold text-white text-center">{title}</h2>
 			<div className="flex justify-center gap-5">
 				<FontAwesomeIcon
 					icon={faYoutube}

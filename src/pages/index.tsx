@@ -36,16 +36,30 @@ const Home: NextPage = () => {
 
 	const checkIfCanGenerate = () => {
 		return (
-			data.mainStreamProvider !== '' ||
-			data.mainStreamUrl !== '' ||
-			data.secondaryStreamProvider !== '' ||
+			data.mainStreamProvider !== '' &&
+			data.mainStreamUrl !== '' &&
+			data.secondaryStreamProvider !== '' &&
 			data.secondaryStreamUrl !== ''
 		);
 	};
 
+	const replaceUrl = (url: string, type: string) => {
+		if (type === 'twitch') {
+			return url.replace('https://www.twitch.tv/', '');
+		} else {
+			return url.replace('https://www.youtube.com/watch?v=', '');
+		}
+	};
+
 	const generateStream = () => {
 		if (!checkIfCanGenerate()) return '/';
-		return `/coView?mainStream=${data.mainStreamUrl}&mainProvider=${data.mainStreamProvider}&secondaryStream=${data.secondaryStreamUrl}&secondaryProvider=${data.secondaryStreamProvider}`;
+
+		let finalData = { ...data };
+
+		finalData.mainStreamUrl = replaceUrl(finalData.mainStreamUrl, finalData.mainStreamProvider);
+		finalData.secondaryStreamUrl = replaceUrl(finalData.secondaryStreamUrl, finalData.secondaryStreamProvider);
+
+		return `/coView?mainStream=${finalData.mainStreamUrl}&mainProvider=${finalData.mainStreamProvider}&secondaryStream=${finalData.secondaryStreamUrl}&secondaryProvider=${finalData.secondaryStreamProvider}`;
 	};
 
 	return (
