@@ -2,6 +2,7 @@ import { faTwitch, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { cva } from 'class-variance-authority';
 import { useState } from 'react';
+import { TextInput } from '@ui/TextInput';
 
 const ToggleIconStyles = cva('text-[50px] hover:cursor-pointer', {
 	variants: {
@@ -23,7 +24,8 @@ export const BuildCoview: React.FC<{
 	title: string;
 	onClick: (provider: string, type: DataElement) => void;
 	type: 'main' | 'secondary';
-}> = ({ title, onClick, type }) => {
+	invalidUrl: boolean;
+}> = ({ title, onClick, type, invalidUrl }) => {
 	const [isProviderSelected, setIsProviderSelected] = useState<boolean>(false);
 	const [selectedProvider, setSelectedProvider] = useState<'youtube' | 'twitch' | ''>('');
 
@@ -59,13 +61,7 @@ export const BuildCoview: React.FC<{
 			{isProviderSelected && (
 				<div className="flex flex-col gap-5">
 					<h2 className="text-xl font-bold text-white">Insert stream url</h2>
-					<input
-						type="text"
-						onBlur={(e) => onProviderClick(e.target.value, `${type}StreamUrl`, true)}
-						maxLength={50}
-						className="m-0 rounded-md border border-solid border-primary bg-background py-1 px-2 text-sm text-white transition ease-in-out invalid:border-red-500 hover:border-primary focus:border-primary focus:text-white
-focus:outline-none"
-					></input>
+					<TextInput onBlur={(e) => onProviderClick(e.target.value, `${type}StreamUrl`, true)} isValid={invalidUrl} />
 				</div>
 			)}
 		</div>

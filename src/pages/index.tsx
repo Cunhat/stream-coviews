@@ -1,16 +1,10 @@
 import { useState, useEffect } from 'react';
-import { TwitchChat } from '@/components/Twitch/TwitchChat';
 import { type NextPage } from 'next';
-import { MemoizedDraggableStream } from '@/components/DraggableStream/DraggableStream';
 import { Button } from '@ui/Button';
-import { faTwitch, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import { useRouter } from 'next/router';
-import { Stream } from '@/components/StreamBuilder';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { cva } from 'class-variance-authority';
+
 import Link from 'next/link';
 import { DataElement, BuildCoview } from '@/components/BuildCoview';
+import { checkIfIsValidUrl, replaceUrl } from '@/utils';
 
 type Data = {
 	mainStreamProvider: string;
@@ -27,28 +21,45 @@ const Home: NextPage = () => {
 		secondaryStreamProvider: '',
 		secondaryStreamUrl: '',
 	});
+	const [isInvalidMainUrl, setIsInvalidMainUrl] = useState<boolean>(false);
+	const [isInvalidSecondaryUrl, setIsInvalidSecondaryUrl] = useState<boolean>(false);
 
 	const chooseStreamHandler = (provider: string, type: DataElement) => {
 		const newData = { ...data };
+
+		if (type === 'mainStreamUrl' && !checkIfIsValidUrl(provider)) {
+			setIsInvalidMainUrl(true);
+		} else if (type === 'mainStreamUrl') {
+			setIsInvalidMainUrl(false);
+		}
+
+		if (type === 'secondaryStreamUrl' && !checkIfIsValidUrl(provider)) {
+			setIsInvalidSecondaryUrl(true);
+		} else if (type === 'secondaryStreamUrl') {
+			setIsInvalidSecondaryUrl(false);
+		}
+
 		newData[type] = provider;
 		setData(newData);
 	};
 
 	const checkIfCanGenerate = () => {
+		console.log(
+			data.mainStreamProvider !== '' &&
+				data.mainStreamUrl !== '' &&
+				data.secondaryStreamProvider !== '' &&
+				data.secondaryStreamUrl !== '' &&
+				!isInvalidMainUrl &&
+				!isInvalidSecondaryUrl,
+		);
 		return (
 			data.mainStreamProvider !== '' &&
 			data.mainStreamUrl !== '' &&
 			data.secondaryStreamProvider !== '' &&
-			data.secondaryStreamUrl !== ''
+			data.secondaryStreamUrl !== '' &&
+			!isInvalidMainUrl &&
+			!isInvalidSecondaryUrl
 		);
-	};
-
-	const replaceUrl = (url: string, type: string) => {
-		if (type === 'twitch') {
-			return url.replace('https://www.twitch.tv/', '');
-		} else {
-			return url.replace('https://www.youtube.com/watch?v=', '');
-		}
 	};
 
 	const generateStream = () => {
@@ -72,8 +83,18 @@ const Home: NextPage = () => {
 				</div>
 			) : (
 				<div className="flex flex-col gap-10">
-					<BuildCoview title="Choose your main stream provider" onClick={chooseStreamHandler} type="main" />
-					<BuildCoview title="Choose your secondary stream provider" onClick={chooseStreamHandler} type="secondary" />
+					<BuildCoview
+						invalidUrl={isInvalidMainUrl}
+						title="Choose your main stream provider"
+						onClick={chooseStreamHandler}
+						type="main"
+					/>
+					<BuildCoview
+						invalidUrl={isInvalidSecondaryUrl}
+						title="Choose your secondary stream provider"
+						onClick={chooseStreamHandler}
+						type="secondary"
+					/>
 				</div>
 			)}
 			{checkIfCanGenerate() && (
