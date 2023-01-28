@@ -29,7 +29,7 @@ export const BuildCoview: React.FC<{
 	const [isProviderSelected, setIsProviderSelected] = useState<boolean>(false);
 	const [selectedProvider, setSelectedProvider] = useState<'youtube' | 'twitch' | ''>('');
 
-	const onProviderClick = (provider: string | 'youtube' | 'twitch', type: DataElement, isInput: boolean = false) => {
+	const onProviderClick = (provider: string | 'youtube' | 'twitch', type: DataElement, isInput = false) => {
 		setIsProviderSelected(true);
 		if (!isInput) {
 			setSelectedProvider(provider as typeof selectedProvider);

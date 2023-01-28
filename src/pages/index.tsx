@@ -65,7 +65,7 @@ const Home: NextPage = () => {
 	const generateStream = () => {
 		if (!checkIfCanGenerate()) return '/';
 
-		let finalData = { ...data };
+		const finalData = { ...data };
 
 		finalData.mainStreamUrl = replaceUrl(finalData.mainStreamUrl, finalData.mainStreamProvider);
 		finalData.secondaryStreamUrl = replaceUrl(finalData.secondaryStreamUrl, finalData.secondaryStreamProvider);
@@ -79,7 +79,7 @@ const Home: NextPage = () => {
 			{!isCoView ? (
 				<div className="flex w-[200px] flex-col gap-5">
 					<Button text="Co-view stream" type="primary" onClick={() => setIsCoView(true)} size="full" />
-					<Button text="Multi-stream" type="secondary" onClick={() => {}} disabled size="full" />
+					{/* <Button text="Multi-stream" type="secondary" onClick={() => {}} disabled size="full" /> */}
 				</div>
 			) : (
 				<div className="flex flex-col gap-10">
@@ -99,7 +99,7 @@ const Home: NextPage = () => {
 			)}
 			{checkIfCanGenerate() && (
 				<Link href={generateStream()}>
-					<Button text="Go to stream" type="primary" onClick={() => {}} size="lg" />
+					<Button text="Go to stream" type="primary" onClick={() => console.log('')} size="lg" />
 				</Link>
 			)}
 		</div>
