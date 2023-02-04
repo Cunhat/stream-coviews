@@ -42,6 +42,7 @@ export const BuildCoview: React.FC<{
 			<h2 className="text-xl font-bold text-white text-center">{title}</h2>
 			<div className="flex justify-center gap-5">
 				<FontAwesomeIcon
+					id={`${type}YoutubeStreamProvider`}
 					icon={faYoutube}
 					onClick={() => onProviderClick('youtube', `${type}StreamProvider`)}
 					className={ToggleIconStyles({
@@ -51,6 +52,7 @@ export const BuildCoview: React.FC<{
 				/>
 				<FontAwesomeIcon
 					icon={faTwitch}
+					id={`${type}TwitchStreamProvider`}
 					onClick={() => onProviderClick('twitch', `${type}StreamProvider`)}
 					className={ToggleIconStyles({
 						type: 'violet',
@@ -61,7 +63,11 @@ export const BuildCoview: React.FC<{
 			{isProviderSelected && (
 				<div className="flex flex-col gap-5">
 					<h2 className="text-xl font-bold text-white">Insert stream url</h2>
-					<TextInput onBlur={(e) => onProviderClick(e.target.value, `${type}StreamUrl`, true)} isValid={invalidUrl} />
+					<TextInput
+						id={`${type}StreamProviderInput`}
+						onBlur={(e) => onProviderClick(e.target.value, `${type}StreamUrl`, true)}
+						isValid={invalidUrl}
+					/>
 				</div>
 			)}
 		</div>

@@ -14,8 +14,11 @@ const TextInputStyles = cva(
 type TextInputProps = {
 	onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 	isValid: boolean;
+	id?: string;
 };
 
-export const TextInput: React.FC<TextInputProps> = ({ onBlur, isValid }) => {
-	return <input type="text" onBlur={onBlur} maxLength={50} className={TextInputStyles({ invalid: isValid })}></input>;
+export const TextInput: React.FC<TextInputProps> = ({ onBlur, isValid, id }) => {
+	return (
+		<input id={id} type="text" onBlur={onBlur} maxLength={50} className={TextInputStyles({ invalid: isValid })}></input>
+	);
 };
