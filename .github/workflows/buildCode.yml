@@ -1,6 +1,6 @@
 name: Check if we can build the code
 on:
-  push:
+  pull_request:
     branches: [main]
 jobs:
   build-project:
