@@ -10,6 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install NPM dependecies
-        run: pnpm install
+        run: npm install
       - name: Build project
-        run: pnpm run build
+        run: npm run build
