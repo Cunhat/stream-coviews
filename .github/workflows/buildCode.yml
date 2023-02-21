@@ -1,15 +1,15 @@
 name: Check if we can build the code
-on: 
+on:
   push:
-     branches: [ main ]
+    branches: [main]
 jobs:
   build-project:
     name: Build project
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Install NPM dependecies
-      run: npm install
-    - name: Build project
-      run: npm run build
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install NPM dependecies
+        run: pnpm install
+      - name: Build project
+        run: pnpm run build
