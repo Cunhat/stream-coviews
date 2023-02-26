@@ -14,8 +14,12 @@ jobs:
       - name: Build project
         run: npm run build
   cypress-run:
+    name: Cypress run
     runs-on: ubuntu-latest
     steps:
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Checkout
         uses: actions/checkout@v3
 
