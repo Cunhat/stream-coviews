@@ -1,6 +1,6 @@
 describe('Home page test', () => {
 	it('passes', () => {
-		cy.visit('http://localhost:3000/');
+		cy.visit('/');
 
 		cy.get('h1').contains('Welcome to your multi-stream platform!');
 
